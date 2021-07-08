@@ -1,5 +1,6 @@
 import cv2
 import sys
+import time
 
 class CameraDetection:
     
@@ -62,6 +63,7 @@ class CameraDetection:
             contours = self.make_contours(frame)
             
             if self.find_rectangle(frame, contours) == True:
+                time.sleep(1)
                 break
                 
             cv2.imshow('Frame', frame)
