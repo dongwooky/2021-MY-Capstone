@@ -1,10 +1,8 @@
 import cv2
-
 import json
 import base64
 import requests
 import time
-
 
 count = 1
 timestamp = round(time.time())
@@ -23,7 +21,7 @@ headers = {
     }
 
 data = {
-        "version" : "V2",
+        "version" : "V1",
         "requestId" : uuid,
         "timestamp" : timestamp,
         "images" : [
@@ -39,4 +37,6 @@ data = json.dumps(data)
 response = requests.post(ocr_invoke_url, headers=headers, data=data)
 res = json.loads(response.text)
 
-print(res)
+res_array = res.get('images')
+for list in res_array[0].get('fields'):
+    print(list.get('inferText'))
