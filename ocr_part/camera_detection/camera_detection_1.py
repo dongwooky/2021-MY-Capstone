@@ -29,6 +29,7 @@ while True:
         sys.exit()
         
     frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    frame_unnoise = cv2.bilateralFilter(frame_gray, -1, 10, 5)
     _, frame_binary = cv2.threshold(frame_gray, 0, 255, cv2.THRESH_BINARY|cv2.THRESH_OTSU)
     contours, _ = cv2.findContours(frame_binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
     
@@ -44,6 +45,9 @@ while True:
         cv2.polylines(frame, points, True, (0, 0, 255), thickness = 1)
         
     cv2.imshow('Frame', frame)
+    cv2.imshow('frame_gray', frame_gray)
+    cv2.imshow('frame_unnoise', frame_unnoise)
+    cv2.imshow('frame_binary', frame_binary)
     
     if cv2.waitKey(33) == ord('q'):
         break
