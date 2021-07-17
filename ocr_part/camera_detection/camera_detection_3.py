@@ -35,7 +35,7 @@ class CameraDetection:
             approx = cv2.approxPolyDP(points, cv2.arcLength(points, True) * 0.02, True)
             if len(approx) != 4:
                 continue
-            cv2.polylines(frame, points, True, (0, 0, 255), thickness = 1)
+            cv2.polylines(frame, points, True, (0, 0, 255), thickness = 3)
             if cv2.contourArea(points) > self.frameWidth * self.frameHeight * 0.5:
                 return True
 
@@ -64,7 +64,7 @@ class CameraDetection:
             contours = self.make_contours(frame)
             
             if self.find_rectangle(frame, contours) == True:
-                time.sleep(1)
+#                time.sleep(1)
                 break
                 
             cv2.imshow('Frame', frame)
@@ -78,6 +78,6 @@ class CameraDetection:
 
 detection = CameraDetection()
 image = detection.camera_detect()
-#cv2.imshow('image', image)
-#cv2.waitKey()
+cv2.imshow('image', image)
+cv2.waitKey()
     
