@@ -27,7 +27,7 @@ layer_names = net.getLayerNames()
 output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 
 #실행
-image = cv2.imread('')
+image = cv2.imread('dog.jpg')
 
 blob = cv2.dnn.blobFromImage(image, 1/255., (320, 320), swapRB=True)
 net.setInput(blob)
@@ -39,5 +39,17 @@ class_ids = []
 confidences = []
 boxes = []
 
+
 for out in outs:
-    print(out.shape)
+    for detection in out:
+        scores = detection[5:]
+        class_id = np.argmax(scores)
+        confidence = scores[class_id]
+        if confidence > confThreshold:
+            cx = int(detection[0] * w)
+            cy = int(detection[1] * h)
+            bw = int(detection[2] * w)
+            bh = int(detection[3] * h)
+            
+            sx = int(cx - bw / 2)
+            sy = int(cy - bh / 2)
