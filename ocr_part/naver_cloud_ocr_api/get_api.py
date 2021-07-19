@@ -7,7 +7,7 @@ import time
 count = 1
 timestamp = round(time.time())
 
-image = cv2.imread("example1.png")
+image = cv2.imread("screenshot1.png")
 ret, buffer = cv2.imencode('.png', image)
 png_as_text = base64.b64encode(buffer)
 
