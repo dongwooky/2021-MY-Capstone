@@ -53,3 +53,28 @@ for out in outs:
             
             sx = int(cx - bw / 2)
             sy = int(cy - bh / 2)
+            
+            boxes.append([sx, sy, bw, bh])
+            confidences.append(float(confidence))
+            class_ids.append(int(class_id))
+            
+indices = cv2.dnn.NMSBoxes(boxes, confidences, confThreshold, nmsThreshold)
+
+for i in indices:
+    i = i[0]
+    sx, sy, bw, bh = boxes[i]
+    label = f'{classes[class_ids[i]]}: {confidences[i]:.2}'
+    color = colors[class_ids[i]]
+    cv2.rectangle(image, (sx, sy, bw, bh), color, 2)
+    cv2.putText(image, label, (sx, sy - 10),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.7, color, 2, cv2.LINE_AA)
+    
+t, _ = net.getPerfProfile()
+label = 'Inference time: %.2f ms' %(t * 1000.0 / cv2.getTickFrequency())
+cv2.putText(image, label, (10, 30), cv2.FONT_HERSHEY_SIMPLEX,
+            0.7, (0, 0, 255), 1, cv2.LINE_AA)
+
+cv2.imshow('image', image)
+cv2.waitKey()
+    
+cv2.destroyAllWindows()
