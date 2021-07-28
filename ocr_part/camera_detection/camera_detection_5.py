@@ -48,7 +48,7 @@ class CameraDetection:
         for points in contours:
             if cv2.contourArea(points) < 1000:  #크기가 1000이하인 contour들은 무시
                 continue
-            approx = cv2.approxPolyDP(points, cv2.arcLength(points, True) * 0.02, True) #외곽선 다각형화
+            approx = cv2.approxPolyDP(points, cv2.arcLength(points, True) * 0.02, True) #외곽선 근사화
             if len(approx) != 4:    #사각형이 아닌것들은 무시
                 continue
             self.approx_points = approx
@@ -76,52 +76,52 @@ class CameraDetection:
         return points
     
     def make_return_image(self, frame):
-        image_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        image_blur = cv2.GaussianBlur(image_gray, (3, 3), 0)
+        image_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)    #전처리 그레이스케일
+        image_blur = cv2.GaussianBlur(image_gray, (3, 3), 0)    #전처리 가우시안 필터
         #cv2.imshow('image_blur', image_blur)
         #cv2.waitKey()
         return image_blur
 
     def camera_detect(self):
-        capture = cv2.VideoCapture(1)
+        capture = cv2.VideoCapture(1)   #웹캠 켜기
         if not capture.isOpened():
             print('Camera open failed!')
             sys.exit()
         
-        capture.set(cv2.CAP_PROP_FRAME_WIDTH, self.frameWidth)
-        capture.set(cv2.CAP_PROP_FRAME_HEIGHT, self.frameHeight)
+        capture.set(cv2.CAP_PROP_FRAME_WIDTH, self.frameWidth)  
+        capture.set(cv2.CAP_PROP_FRAME_HEIGHT, self.frameHeight)    #웹캠마다 프레임 달라질수 있으니 프레임 고정
         
         while True:
-            ret, self.frame = capture.read()
+            ret, self.frame = capture.read()    #웹캠에서 프레임 가져오기
             if not ret:
                 print("Frame read error!")
                 sys.exit()
     
-            contours = self.make_contours(self.frame)
+            contours = self.make_contours(self.frame)   #외곽선 검출
             
-            is_rectangle = self.find_rectangle(self.frame, contours)
+            is_rectangle = self.find_rectangle(self.frame, contours)    #사각형 확인
             
-            if is_rectangle == True:
+            if is_rectangle == True:    #사각형이면 멈추기
                 break
                 
-            cv2.imshow('Frame', self.frame)
-            if cv2.waitKey(33) == ord('q'):
+            cv2.imshow('Frame', self.frame) #프레임 출력
+            if cv2.waitKey(33) == ord('q'): #33ms마다 프레임 바꾸기 q누르면 멈춤
                 break
             
-        self.srcQuad = self.reorder_points(self.approx_points.reshape(4, 2).astype(np.float32))      
-        perspective = cv2.getPerspectiveTransform(self.srcQuad, self.dstQuad)
-        dst_frame = cv2.warpPerspective(self.frame, perspective, (self.dstWidth, self.dstHeight))
+        self.srcQuad = self.reorder_points(self.approx_points.reshape(4, 2).astype(np.float32)) #꼭지점 정렬
+        perspective = cv2.getPerspectiveTransform(self.srcQuad, self.dstQuad)   #Perspective 행렬 반환
+        dst_frame = cv2.warpPerspective(self.frame, perspective, (self.dstWidth, self.dstHeight))   #Perspective 변환
         
-        capture.release()
-        cv2.destroyAllWindows()
-        return dst_frame  
+        capture.release()   #웹캠 객체 풀기
+        cv2.destroyAllWindows() #모든 창 닫기
+        return dst_frame  #결과 프레임 출력
 #        return self.make_return_image(dst_frame)
 
 def ocr(image):
     count = 1
     timestamp = round(time.time())
-    ret, buffer = cv2.imencode('.png', image)
-    png_as_text = base64.b64encode(buffer)
+    ret, buffer = cv2.imencode('.png', image)   #이미지를 png형태로 변환
+    png_as_text = base64.b64encode(buffer)  #이미지를 b64로 인코딩
     
     x_ocr_secret = "ZlBWaUFqdFp4bVFZTUpnTHZucGVwZFVOZUt3cllVY0o="
     ocr_invoke_url = "https://f04b1d88f83e41a6b1df8ce399b61fb5.apigw.ntruss.com/custom/v1/9782/eed9df9be97433637c2950146e96ff0956759904a38b1e5e6a9a69a7f6691a68/general"
@@ -145,13 +145,13 @@ def ocr(image):
                 ]
             }
     
-    data = json.dumps(data)
-    response = requests.post(ocr_invoke_url, headers=headers, data=data)
-    res = json.loads(response.text)
+    data = json.dumps(data) #파이썬 객체를 json로 변환
+    response = requests.post(ocr_invoke_url, headers=headers, data=data)    #API로 보내기
+    res = json.loads(response.text) #json을 객체로 변환
     
     res_array = res.get('images')
     for list in res_array[0].get('fields'):
-        print(list.get('inferText'))
+        print(list.get('inferText'))    #받아온 json파일에서 필요한 부분만 Parsing
 
 detection = CameraDetection()
 image = detection.camera_detect()
