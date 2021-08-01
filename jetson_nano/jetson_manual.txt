@@ -1,0 +1,101 @@
+1. fan 작동
+sudo sh -c 'echo 100 > /sys/devices/pwm-fan/target_pwm'
+
+2. 
+#기존 opencv4.1.1 제거
+sudo apt purge libopencv4*
+sudo apt autoremove
+
+#dependecies install - 확인 절차
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install build-essential cmake unzip pkg-config
+sudo apt-get install libjpeg-dev libpng-dev libtiff-dev
+sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev
+sudo apt-get install libv4l-dev libxvidcore-dev libx264-dev
+sudo apt-get install libgtk-3-dev
+sudo apt-get install libatlas-base-dev gfortran
+sudo apt-get install python3-dev
+
+#CMake 업데이트
+wget http://www.cmake.org/files/v3. 13 /cmake-3.13.0.tar.gz
+tar xpvf cmake-3.13.0.tar.gz cmake-3.13. 0 /
+cd cmake-3.13. 0 /
+./bootstrap --system-curl
+make -j4
+echo 'export PATH=/home/nvidia/cmake-3.13.0/bin/:$PATH' >> ~/.bashrc
+source ~/.bashrc
+
+#opencv4.2 다운로드
+cd ~
+wget -O opencv.zip https://github.com/opencv/opencv/archive/4.2.0.zip
+wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.2.0.zip
+unzip opencv.zip
+unzip opencv_contrib.zip
+mv opencv-4.2.0 opencv
+mv opencv_contrib-4.2.0 opencv_contrib
+
+#파이썬 설치
+wget https://bootstrap.pypa.io/get-pip.py
+sudo python3 get-pip.py
+rm get-pip.py
+
+#빌드 디렉토리 생성
+cd opencv
+mkdir build
+cd build
+
+#주소 확인
+pwd
+
+#cmake 컴파일
+cmake -D CMAKE_BUILD_TYPE=RELEASE \
+	-D WITH_CUDA=ON \
+	-D OPENCV_DNN_CUDA=ON \
+	-D ENABLE_FAST_MATH=1 \
+	-D CUDA_FAST_MATH=1 \
+	-D CUDA_ARCH_PTX="" \
+	-D CUDA_ARCH_BIN="5.3,6.2,7.2" \
+	-D WITH_CUBLAS=ON \
+	-D WITH_LIBV4L=ON \
+	-D BUILD_opencv_python3=ON \
+	-D BUILD_opencv_python2=OFF \
+	-D BUILD_opencv_java=OFF \
+	-D WITH_GSTREAMER=ON \
+	-D WITH_GTK=ON \
+	-D BUILD_TESTS=OFF \
+	-D BUILD_PERF_TESTS=OFF \
+	-D BUILD_EXAMPLES=OFF \
+	-D OPENCV_ENABLE_NONFREE=ON \
+	-D OPENCV_EXTRA_MODULES_PATH=/home/`whoami`/opencv_contrib/modules ..
+'''
+#cmake 새로 만들기(오류일때만)
+cd ..
+rm -rf build
+mkdir build
+cd build
+'''
+
+#opencv 컴파일
+make -j4
+
+3. vscode 설치
+#파일설치
+git clone https://github.com/JetsonHacksNano/installVSCode.git
+#설치한 파일이 있는 디렉터리로 이동
+ls
+cd installVSCode
+#설치
+./installVSCode.sh
+
+4. 웹캠
+sudo apt-get install -y fswebcam
+fswebcam image.jpg
+
+5. jetson stats
+sudo -H pip install -U jetson-stats
+jetson_release
+
+
+
+
