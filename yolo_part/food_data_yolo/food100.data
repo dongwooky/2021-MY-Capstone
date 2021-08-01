@@ -1,0 +1,5 @@
+classes= 100
+train  = /Users/82106/Documents/Git_project/2021-MY-Capstone/yolo_part/food_data_yolo/data/train.txt 
+valid  = /Users/82106/Documents/Git_project/2021-MY-Capstone/yolo_part/food_data_yolo/data/test.txt  
+names = /Users/82106/Documents/Git_project/2021-MY-Capstone/yolo_part/food_data_yolo/data/food100.names  
+backup = backup
