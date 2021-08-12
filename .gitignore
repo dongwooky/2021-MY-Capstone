@@ -21,3 +21,5 @@ cloud_part/cloud_realtime/input_image/output.png
 yolo_part/yolo_v4_2/checkpoints/yolov4-416/variables/variables.data-00000-of-00001
 cloud_part/cloud_realtime/input_image/input.png
 cloud_part/cloud_realtime/input_image/output.png
+cloud_part/cloud_realtime/input_image/input.png
+cloud_part/cloud_realtime/input_image/output.png
