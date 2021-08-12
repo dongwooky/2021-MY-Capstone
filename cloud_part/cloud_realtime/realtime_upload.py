@@ -23,7 +23,7 @@ if not capture.isOpened():
     sys.exit()
     
 while True:
-    ret, frame = capture.read()
+    ret, frame = capture.read() 
     if not ret:
         print('Frame read error!')
         sys.exit()
