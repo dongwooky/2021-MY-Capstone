@@ -6,3 +6,8 @@ yolo_part/food_data_yolo/bin
 yolo_part/food_data_yolo/cfg
 yolo_part/food_data_yolo/darknet
 yolo_part/food_data_yolo/data
+
+yolo_part/yolo_v4_2/cloud
+yolo_part/yolo_v4_2/data
+
+cloud_part/cloud_realtime/input_image
