@@ -11,3 +11,13 @@ yolo_part/yolo_v4_2/cloud
 yolo_part/yolo_v4_2/data
 
 cloud_part/cloud_realtime/input_image
+cloud_part/cloud_realtime/input_image/output.png
+*.png
+*.png
+cloud_part/cloud_realtime/input_image/input.png
+jetson_nano/jetpack_4.6/sd-blob-b01.img
+cloud_part/cloud_realtime/input_image/input.png
+cloud_part/cloud_realtime/input_image/output.png
+yolo_part/yolo_v4_2/checkpoints/yolov4-416/variables/variables.data-00000-of-00001
+cloud_part/cloud_realtime/input_image/input.png
+cloud_part/cloud_realtime/input_image/output.png
