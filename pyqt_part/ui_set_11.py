@@ -39,13 +39,13 @@ class VideoThread(QThread):
 
     def run(self):
         while True:
-            s3.download_file(bucket_name, 'fridge_frame', './cloud/fridge_frame.png')
+            s3.download_file(bucket_name, 'fridge_frame', './cloud/fridge_frame.jpg')
             s3.download_file(bucket_name, 'table_frame', './cloud/table_frame.png')
             s3.download_file(bucket_name, 'receipt_image', './cloud/receipt_image.png')
             s3.download_file(bucket_name, 'fridge_list', './cloud/fridge_list.txt')
             s3.download_file(bucket_name, 'table_list', './cloud/table_list.txt')
             
-            fridge_frame = cv2.imread('./cloud/fridge_frame.png')
+            fridge_frame = cv2.imread('./cloud/fridge_frame.jpg')
             table_frame = cv2.imread('./cloud/table_frame.png')
             receipt_image = cv2.imread('./cloud/receipt_image.png')
             
