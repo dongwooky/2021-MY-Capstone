@@ -24,3 +24,4 @@ cloud_part/cloud_realtime/input_image/output.png
 cloud_part/cloud_realtime/input_image/input.png
 cloud_part/cloud_realtime/input_image/output.png
 jetson_nano/jetpack_4.5/sd-blob-b01.img
+raspberrypi/2021-05-07-raspios-buster-armhf-full.img
