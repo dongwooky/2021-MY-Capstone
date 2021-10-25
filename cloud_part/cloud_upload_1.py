@@ -12,7 +12,7 @@ if __name__ == "__main__":
     
     bucket_name = 'dwkrefrigerator'
     
-    object_name = 'in_refrigerator'
+    object_name = 'fridge_list'
     local_file_path = './hi.txt'
     
     s3.upload_file(local_file_path, bucket_name, object_name)

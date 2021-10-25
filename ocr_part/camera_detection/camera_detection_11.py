@@ -37,7 +37,7 @@ class CameraDetection:
         self.receipt_list = []
     #프레임 크기 확인
     def frame_size_check(self):
-        capture = cv2.VideoCapture(0)   #카메라 가져오기
+        capture = cv2.VideoCapture(1)   #카메라 가져오기
         if not capture.isOpened():      #카메라 안열리면 종료
             print('Camera open failed!')
             sys.exit()
@@ -70,7 +70,7 @@ class CameraDetection:
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
 #            cv2.putText(frame, "Receipt", (x + w + 20, y + 20), cv2.FONT_HERSHEY_COMPLEX, 0.7, (0, 255, 0), 2)
             
-            if cv2.contourArea(points) > self.frameWidth * self.frameHeight * 0.8: #일정 크기 이상이면 찾기 스탑
+            if cv2.contourArea(points) > self.frameWidth * self.frameHeight * 0.3: #일정 크기 이상이면 찾기 스탑
                 return True         
 
             
@@ -98,7 +98,7 @@ class CameraDetection:
         return image_blur
 
     def camera_detect(self):
-        capture = cv2.VideoCapture(0)   #웹캠 켜기
+        capture = cv2.VideoCapture(1)   #웹캠 켜기
         if not capture.isOpened():
             print('Camera open failed!')
             sys.exit()

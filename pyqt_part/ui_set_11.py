@@ -30,7 +30,6 @@ ui = uic.loadUiType('./ref_sys_1.ui')[0]
 
 frame_table = np.zeros((480, 640))
 
-
 class VideoThread(QThread):
     change_pixmap_signal_image = pyqtSignal(list)
     
